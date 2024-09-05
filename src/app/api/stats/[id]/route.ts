@@ -19,7 +19,10 @@ export async function GET(
   const data = res.data;
 
   const name = data.name;
-  const image = data.sprites.front_default;
+  const image =
+    data.sprites.other === undefined
+      ? data.sprites.front_default
+      : data.sprites.other["official-artwork"]?.front_default;
   const stats = data.stats.map((item, idx) => ({
     name: STAT_KOR_NAME[idx],
     value: item.base_stat,
