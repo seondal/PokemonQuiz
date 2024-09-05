@@ -2,6 +2,8 @@
 
 import { StatsI } from "@/interface/response";
 import fetcher from "@/utils/fetcher";
+import Image from "next/image";
+import { useState } from "react";
 import useSWR from "swr";
 
 const BAR_COLORS = [
@@ -15,6 +17,29 @@ const BAR_COLORS = [
 
 export default function Home() {
   const { data, isLoading } = useSWR<StatsI>("/api/stats/180", fetcher);
+  const [value, setValue] = useState("");
+  const [curState, setCurState] = useState<"ing" | "correct" | "wrong">("ing");
+
+  function onSubmit() {
+    setCurState(data?.name == value ? "correct" : "wrong");
+  }
+
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+
+  if (curState !== "ing") {
+    return (
+      <div>
+        {data && (
+          <Image src={data.image} alt={data.name} width={200} height={200} />
+        )}
+        <div>정답 : {data?.name}</div>
+        <div>답변 : {value}</div>
+        <div>{curState == "correct" ? "맞았습니다" : "틀렸습니다"}</div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -38,6 +63,10 @@ export default function Home() {
           );
         })}
       </div>
+      <form onSubmit={onSubmit}>
+        <input value={value} onChange={(e) => setValue(e.target.value)} />
+        <button>입력</button>
+      </form>
     </div>
   );
 }
