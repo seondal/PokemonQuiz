@@ -1,4 +1,6 @@
-export const TEST_DATA = {
+import { PokeAPI } from "pokeapi-types";
+
+export const TEST_DATA: PokeAPI.Pokemon = {
   abilities: [
     {
       ability: {
