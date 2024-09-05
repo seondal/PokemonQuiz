@@ -21,9 +21,9 @@ export default function RootLayout({
       </head>
       <body>
         <header></header>
-        <main className="text-center max-w-96 m-auto">{children}</main>
+        <main className="text-center m-auto">{children}</main>
         <GoogleAnalytics gaId={GOOGLE_ANALYITICS} />
-        <footer className="text-center p-4">
+        <footer className="fixed b-0 inset-x-0 text-center p-4">
           <div>문의, 기능제안, 오류신고 편하게 해주세요 !</div>
           <a href={DEVELOPER}>이 사이트 만든 사람</a>
         </footer>
