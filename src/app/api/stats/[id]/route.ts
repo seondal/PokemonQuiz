@@ -1,7 +1,15 @@
-import { POKE_API } from "@/constants/ENV";
 import { NextRequest } from "next/server";
 import { PokeAPI } from "pokeapi-types";
 import instance from "../../instance";
+
+const STAT_KOR_NAME = [
+  "체력",
+  "공격",
+  "방어",
+  "특수공격",
+  "특수방어",
+  "스피드",
+];
 
 export async function GET(
   request: NextRequest,
@@ -11,10 +19,11 @@ export async function GET(
   const data = res.data;
 
   const name = data.name;
-  const stats = data.stats.map((item) => ({
-    name: item.stat.name,
+  const image = data.sprites.front_default;
+  const stats = data.stats.map((item, idx) => ({
+    name: STAT_KOR_NAME[idx],
     value: item.base_stat,
   }));
 
-  return Response.json({ name, stats });
+  return Response.json({ name, image, stats });
 }
