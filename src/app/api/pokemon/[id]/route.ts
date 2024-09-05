@@ -37,5 +37,12 @@ export async function GET(
 
   const total = stats.reduce((sum, item) => sum + item.value, 0);
 
-  return Response.json({ name, image, stats, total });
+  const types = data.types.map((item) => item.type.name);
+  if (data.types.length === 1) {
+    types.push("단일타입");
+  }
+
+  const generation = data2.generation.name;
+
+  return Response.json({ name, image, stats, total, types, generation });
 }

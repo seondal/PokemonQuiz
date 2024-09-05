@@ -1,6 +1,12 @@
-export interface StatsI {
+export interface StatI {
+  name: string;
+  value: number;
+}
+export interface PokemonI {
   name: string;
   image: string;
-  stats: { name: string; value: number }[];
+  stats: StatI[];
   total: number;
+  generation: string;
+  types: string[];
 }
