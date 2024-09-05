@@ -16,7 +16,8 @@ const BAR_COLORS = [
 ];
 
 export default function Home() {
-  const { data, isLoading } = useSWR<StatsI>("/api/stats/180", fetcher);
+  const [index, setIndex] = useState(Math.floor(Math.random() * 1025 + 1));
+  const { data, isLoading } = useSWR<StatsI>(`/api/stats/${index}`, fetcher);
   const [value, setValue] = useState("");
   const [curState, setCurState] = useState<"ing" | "correct" | "wrong">("ing");
 
@@ -32,11 +33,18 @@ export default function Home() {
     return (
       <div>
         {data && (
-          <Image src={data.image} alt={data.name} width={200} height={200} />
+          <Image
+            priority
+            src={data.image}
+            alt={data.name}
+            width={200}
+            height={200}
+          />
         )}
         <div>정답 : {data?.name}</div>
         <div>답변 : {value}</div>
         <div>{curState == "correct" ? "맞았습니다" : "틀렸습니다"}</div>
+        <button onClick={() => setCurState("ing")}>다음</button>
       </div>
     );
   }
