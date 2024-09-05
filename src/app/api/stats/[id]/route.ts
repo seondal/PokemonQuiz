@@ -35,5 +35,7 @@ export async function GET(
     value: item.base_stat,
   }));
 
-  return Response.json({ name, image, stats });
+  const total = stats.reduce((sum, item) => sum + item.value, 0);
+
+  return Response.json({ name, image, stats, total });
 }

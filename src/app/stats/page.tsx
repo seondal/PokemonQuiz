@@ -70,6 +70,20 @@ export default function Home() {
             </div>
           );
         })}
+        {data && (
+          <div key={"총합"} className="flex justify-between">
+            <div className="w-20">총합: </div>
+            <div className="w-10">{data.total}</div>
+            <div className="w-full flex flex-1">
+              <div
+                className="h-5 bg-purple-600"
+                style={{
+                  width: `${(data.total / 1530) * 100}%`,
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <form onSubmit={onSubmit}>
         <input value={value} onChange={(e) => setValue(e.target.value)} />
