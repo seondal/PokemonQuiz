@@ -1,0 +1,38 @@
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --background: #ffffff;
+  --text: #121212;
+  --text-secondary: #999;
+  --link: #118bee;
+  --main: #00654F;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #ffffff;
+    --background: #202124;
+  }
+}
+
+body {
+  color: var(--text);
+  background: var(--background);
+}
+
+a {
+  color: var(--link);
+}
+
+button {
+  font: bold;
+  background-color: var(--main);
+  outline: none;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  color: white;
+}
