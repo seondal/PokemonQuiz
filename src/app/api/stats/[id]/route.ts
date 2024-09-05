@@ -18,11 +18,18 @@ export async function GET(
   const res = await instance.get<PokeAPI.Pokemon>(`/pokemon/${params.id}`);
   const data = res.data;
 
-  const name = data.name;
+  const res2 = await instance.get<PokeAPI.PokemonSpecies>(
+    `/pokemon-species/${params.id}`
+  );
+  const data2 = res2.data;
+
+  const name = data2.names.find((item) => item.language.name === "ko")?.name;
+
   const image =
     data.sprites.other === undefined
       ? data.sprites.front_default
       : data.sprites.other["official-artwork"]?.front_default;
+
   const stats = data.stats.map((item, idx) => ({
     name: STAT_KOR_NAME[idx],
     value: item.base_stat,
