@@ -8,8 +8,12 @@ import useSWR from "swr";
 import StatGraph from "./StatGraph";
 import Hint from "./Hint";
 
-export default function Quiz() {
-  const [index, setIndex] = useState(Math.floor(Math.random() * 1025 + 1));
+interface QuizI {
+  index: number;
+  goNext: () => void;
+}
+
+export default function Quiz({ index, goNext }: QuizI) {
   const { data, isLoading } = useSWR<PokemonI>(
     `/api/pokemon/${index}`,
     fetcher
@@ -19,6 +23,12 @@ export default function Quiz() {
 
   function onSubmit() {
     setCurState(data?.name == value ? "correct" : "wrong");
+  }
+
+  function onClickNext() {
+    setCurState("ing");
+    setValue("");
+    goNext();
   }
 
   if (isLoading || !data) {
@@ -38,7 +48,7 @@ export default function Quiz() {
         <div>정답 : {data.name}</div>
         <div>답변 : {value}</div>
         <div>{curState == "correct" ? "맞았습니다" : "틀렸습니다"}</div>
-        <button onClick={() => setCurState("ing")}>다음</button>
+        <button onClick={onClickNext}>다음</button>
       </div>
     );
   }
