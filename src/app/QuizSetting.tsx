@@ -11,9 +11,15 @@ const GENERATION = Array.from(
 export default function QuizSetting() {
   const [count, setCount] = useState(10);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(count);
+    const res = await fetch(`/api/quiz`, {
+      method: "POST",
+      body: JSON.stringify({
+        count,
+      }),
+    });
+    const data = res.json();
   }
 
   return (
