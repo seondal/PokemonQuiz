@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
 import StatGraph from "./StatGraph";
+import Hint from "./Hint";
 
 export default function QuizPage() {
   const [index, setIndex] = useState(Math.floor(Math.random() * 1025 + 1));
@@ -48,13 +49,17 @@ export default function QuizPage() {
         <StatGraph total={data.total} stats={data.stats} />
         <input value={value} onChange={(e) => setValue(e.target.value)} />
         <button>입력</button>
-        <div style={{ backgroundColor: data.types[0].color }}>
-          {data.types[0].name}
+        <div className="flex justify-around">
+          {data.types.map((item, idx) => (
+            <Hint
+              key={idx}
+              text={item.name}
+              color={item.color}
+              cover={`타입 ${idx + 1}`}
+            />
+          ))}
+          <Hint text={data.generation} cover="세대" />
         </div>
-        <div style={{ backgroundColor: data.types[1].color }}>
-          {data.types[1].name}
-        </div>
-        <div>{data.generation}</div>
       </form>
     </div>
   );
