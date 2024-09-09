@@ -48,8 +48,12 @@ export default function Home() {
         <StatGraph total={data.total} stats={data.stats} />
         <input value={value} onChange={(e) => setValue(e.target.value)} />
         <button>입력</button>
-        <div>{data.types[0]}</div>
-        <div>{data.types[1]}</div>
+        <div style={{ backgroundColor: data.types[0].color }}>
+          {data.types[0].name}
+        </div>
+        <div style={{ backgroundColor: data.types[1].color }}>
+          {data.types[1].name}
+        </div>
         <div>{data.generation}</div>
       </form>
     </div>

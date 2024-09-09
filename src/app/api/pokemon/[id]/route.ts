@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { PokeAPI } from "pokeapi-types";
 import instance from "../../instance";
 import findLocalizedName from "@/utils/localize";
+import TYPE_COLORS from "@/constants/TYPE_COLORS";
 
 export async function GET(
   request: NextRequest,
@@ -39,12 +40,13 @@ export async function GET(
     data.types.map(async (item) => {
       const typeData = (await instance.get<PokeAPI.Type>(item.type.url)).data;
       const typeId = typeData.id;
+      const typeColor = TYPE_COLORS.find((item) => item.id === typeId)?.color;
       const typeName = findLocalizedName(typeData);
-      return typeName;
+      return { name: typeName, color: typeColor };
     })
   );
   if (data.types.length === 1) {
-    types.push("단일타입");
+    types.push({ name: "단일타입", color: "#000000" });
   }
 
   const genData = (await instance.get<PokeAPI.Generation>(data2.generation.url))
