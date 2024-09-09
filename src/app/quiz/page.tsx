@@ -7,7 +7,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import StatGraph from "./StatGraph";
 
-export default function Home() {
+export default function QuizPage() {
   const [index, setIndex] = useState(Math.floor(Math.random() * 1025 + 1));
   const { data, isLoading } = useSWR<PokemonI>(
     `/api/pokemon/${index}`,
