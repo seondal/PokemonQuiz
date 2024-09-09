@@ -1,8 +1,7 @@
 import { NextRequest } from "next/server";
 import { PokeAPI } from "pokeapi-types";
 import instance from "../../instance";
-
-const LANGUAGE = "ko" as const;
+import findLocalizedName from "@/utils/localize";
 
 export async function GET(
   request: NextRequest,
@@ -16,9 +15,7 @@ export async function GET(
   );
   const data2 = res2.data;
 
-  const name = data2.names.find(
-    (item) => item.language.name === LANGUAGE
-  )?.name;
+  const name = findLocalizedName(data2);
 
   const image =
     data.sprites.other === undefined
@@ -28,9 +25,7 @@ export async function GET(
   const stats = await Promise.all(
     data.stats.map(async (item, idx) => {
       const statData = (await instance.get<PokeAPI.Stat>(item.stat.url)).data;
-      const statName = statData.names.find(
-        (item) => item.language.name === LANGUAGE
-      )?.name;
+      const statName = findLocalizedName(statData);
       return {
         name: statName,
         value: item.base_stat,
@@ -44,9 +39,7 @@ export async function GET(
     data.types.map(async (item) => {
       const typeData = (await instance.get<PokeAPI.Type>(item.type.url)).data;
       const typeId = typeData.id;
-      const typeName = typeData.names.find(
-        (item) => item.language.name === LANGUAGE
-      )?.name;
+      const typeName = findLocalizedName(typeData);
       return typeName;
     })
   );
