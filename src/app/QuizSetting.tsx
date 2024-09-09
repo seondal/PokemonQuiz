@@ -1,5 +1,8 @@
 "use client";
 
+import { QuizListT } from "@/interface/response";
+import useQuizStore from "@/store/useQuizStore";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 const LATEST_GENERATION = 9;
@@ -11,15 +14,24 @@ const GENERATION = Array.from(
 export default function QuizSetting() {
   const [count, setCount] = useState(10);
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const { setQuizList } = useQuizStore();
+  const router = useRouter();
+
+  async function fetchQuiz(): Promise<QuizListT> {
     const res = await fetch(`/api/quiz`, {
       method: "POST",
       body: JSON.stringify({
         count,
       }),
     });
-    const data = res.json();
+    return res.json();
+  }
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = await fetchQuiz();
+    setQuizList(data);
+    router.push("/quiz");
   }
 
   return (

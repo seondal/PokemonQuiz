@@ -15,3 +15,5 @@ export interface PokemonI {
   generation: string;
   types: TypeI[];
 }
+
+export type QuizListT = number[];
