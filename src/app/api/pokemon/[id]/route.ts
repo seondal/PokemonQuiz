@@ -2,14 +2,7 @@ import { NextRequest } from "next/server";
 import { PokeAPI } from "pokeapi-types";
 import instance from "../../instance";
 
-const STAT_KOR_NAME = [
-  "체력",
-  "공격",
-  "방어",
-  "특수공격",
-  "특수방어",
-  "스피드",
-];
+const LANGUAGE = "ko" as const;
 
 export async function GET(
   request: NextRequest,
@@ -23,21 +16,40 @@ export async function GET(
   );
   const data2 = res2.data;
 
-  const name = data2.names.find((item) => item.language.name === "ko")?.name;
+  const name = data2.names.find(
+    (item) => item.language.name === LANGUAGE
+  )?.name;
 
   const image =
     data.sprites.other === undefined
       ? data.sprites.front_default
       : data.sprites.other["official-artwork"]?.front_default;
 
-  const stats = data.stats.map((item, idx) => ({
-    name: STAT_KOR_NAME[idx],
-    value: item.base_stat,
-  }));
+  const stats = await Promise.all(
+    data.stats.map(async (item, idx) => {
+      const statData = (await instance.get<PokeAPI.Stat>(item.stat.url)).data;
+      const statName = statData.names.find(
+        (item) => item.language.name === LANGUAGE
+      )?.name;
+      return {
+        name: statName,
+        value: item.base_stat,
+      };
+    })
+  );
 
   const total = stats.reduce((sum, item) => sum + item.value, 0);
 
-  const types = data.types.map((item) => item.type.name);
+  const types = await Promise.all(
+    data.types.map(async (item) => {
+      const typeData = (await instance.get<PokeAPI.Type>(item.type.url)).data;
+      const typeId = typeData.id;
+      const typeName = typeData.names.find(
+        (item) => item.language.name === LANGUAGE
+      )?.name;
+      return typeName;
+    })
+  );
   if (data.types.length === 1) {
     types.push("단일타입");
   }
