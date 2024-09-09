@@ -45,21 +45,21 @@ export default function QuizPage() {
 
   return (
     <div>
+      <StatGraph total={data.total} stats={data.stats} />
+      <div className="flex justify-around">
+        {data.types.map((item, idx) => (
+          <Hint
+            key={idx}
+            text={item.name}
+            color={item.color}
+            cover={`타입${idx + 1}`}
+          />
+        ))}
+        <Hint text={data.generation} cover="세대" />
+      </div>
       <form onSubmit={onSubmit}>
-        <StatGraph total={data.total} stats={data.stats} />
         <input value={value} onChange={(e) => setValue(e.target.value)} />
         <button>입력</button>
-        <div className="flex justify-around">
-          {data.types.map((item, idx) => (
-            <Hint
-              key={idx}
-              text={item.name}
-              color={item.color}
-              cover={`타입 ${idx + 1}`}
-            />
-          ))}
-          <Hint text={data.generation} cover="세대" />
-        </div>
       </form>
     </div>
   );
