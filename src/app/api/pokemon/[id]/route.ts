@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PokeAPI } from "pokeapi-types";
 import instance from "../../instance";
 import findLocalizedName from "@/utils/localize";
@@ -53,5 +53,5 @@ export async function GET(
     .data;
   const generation = findLocalizedName(genData);
 
-  return Response.json({ name, image, stats, total, types, generation });
+  return NextResponse.json({ name, image, stats, total, types, generation });
 }
