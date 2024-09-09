@@ -47,7 +47,9 @@ export async function GET(
     types.push("단일타입");
   }
 
-  const generation = data2.generation.name;
+  const genData = (await instance.get<PokeAPI.Generation>(data2.generation.url))
+    .data;
+  const generation = findLocalizedName(genData);
 
   return Response.json({ name, image, stats, total, types, generation });
 }
