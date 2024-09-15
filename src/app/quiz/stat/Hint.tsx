@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 interface HintI {
-  key?: any;
+  key: any;
   color?: string;
   text: string;
   cover?: string;

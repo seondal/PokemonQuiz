@@ -21,6 +21,7 @@ export default function QuizSetting() {
   const [mode, setMode] = useState<PathI>("stat");
   const [count, setCount] = useState(10);
 
+  const [loading, setLoading] = useState(false);
   const { setQuizList } = useQuizStore();
   const router = useRouter();
 
@@ -36,9 +37,14 @@ export default function QuizSetting() {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setLoading(true);
     const data = await fetchQuiz();
     setQuizList(data);
     router.push(`/quiz/${mode}`);
+  }
+
+  if (loading) {
+    return <div>로딩중...</div>;
   }
 
   return (
