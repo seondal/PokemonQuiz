@@ -6,3 +6,5 @@ export const GOOGLE_SEARCH = process.env.NEXT_PUBLIC_GOOGLE_SEARCH || "";
 export const DEVELOPER = process.env.NEXT_PUBLIC_DEVELOPER || "";
 
 export const POKE_API = "https://pokeapi.co/api/v2";
+
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";

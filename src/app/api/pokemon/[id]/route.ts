@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PokeAPI } from "pokeapi-types";
-import instance from "../../instance";
+import { pokeApi } from "../../instance";
 import findLocalizedName from "@/utils/localize";
 import TYPE_COLORS from "@/constants/TYPE_COLORS";
 
@@ -8,10 +8,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: number } }
 ) {
-  const res = await instance.get<PokeAPI.Pokemon>(`/pokemon/${params.id}`);
+  const res = await pokeApi.get<PokeAPI.Pokemon>(`/pokemon/${params.id}`);
   const data = res.data;
 
-  const res2 = await instance.get<PokeAPI.PokemonSpecies>(
+  const res2 = await pokeApi.get<PokeAPI.PokemonSpecies>(
     `/pokemon-species/${params.id}`
   );
   const data2 = res2.data;
@@ -25,7 +25,7 @@ export async function GET(
 
   const stats = await Promise.all(
     data.stats.map(async (item, idx) => {
-      const statData = (await instance.get<PokeAPI.Stat>(item.stat.url)).data;
+      const statData = (await pokeApi.get<PokeAPI.Stat>(item.stat.url)).data;
       const statName = findLocalizedName(statData);
       return {
         name: statName,
@@ -38,7 +38,7 @@ export async function GET(
 
   const types = await Promise.all(
     data.types.map(async (item) => {
-      const typeData = (await instance.get<PokeAPI.Type>(item.type.url)).data;
+      const typeData = (await pokeApi.get<PokeAPI.Type>(item.type.url)).data;
       const typeId = typeData.id;
       const typeColor = TYPE_COLORS.find((item) => item.id === typeId)?.color;
       const typeName = findLocalizedName(typeData);
@@ -49,7 +49,7 @@ export async function GET(
     types.push({ name: "단일타입", color: "#000000" });
   }
 
-  const genData = (await instance.get<PokeAPI.Generation>(data2.generation.url))
+  const genData = (await pokeApi.get<PokeAPI.Generation>(data2.generation.url))
     .data;
   const generation = findLocalizedName(genData);
 

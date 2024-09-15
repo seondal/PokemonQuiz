@@ -9,30 +9,22 @@ import StatGraph from "./StatGraph";
 import Hint from "./Hint";
 
 interface QuizI {
-  index: number;
+  data: PokemonI;
   goNext: () => void;
 }
 
-export default function Quiz({ index, goNext }: QuizI) {
-  const { data, isLoading } = useSWR<PokemonI>(
-    `/api/pokemon/${index}`,
-    fetcher
-  );
+export default function Quiz({ data, goNext }: QuizI) {
   const [value, setValue] = useState("");
   const [curState, setCurState] = useState<"ing" | "correct" | "wrong">("ing");
 
   function onSubmit() {
-    setCurState(data?.name == value ? "correct" : "wrong");
+    setCurState(data.name == value ? "correct" : "wrong");
   }
 
   function onClickNext() {
     setCurState("ing");
     setValue("");
     goNext();
-  }
-
-  if (isLoading || !data) {
-    return <div>로딩중</div>;
   }
 
   if (curState !== "ing") {

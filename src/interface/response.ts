@@ -16,4 +16,4 @@ export interface PokemonI {
   types: TypeI[];
 }
 
-export type QuizListT = number[];
+export type QuizListT = Array<PokemonI>;
