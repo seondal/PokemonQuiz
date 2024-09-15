@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { myApi, pokeApi } from "../instance";
 import { GenerationI } from "@/interface/response";
