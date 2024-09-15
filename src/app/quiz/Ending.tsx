@@ -1,6 +1,19 @@
+import useQuizStore from "@/store/useQuizStore";
+import useScoreStore from "@/store/useScoreStore";
+import { useRouter } from "next/navigation";
+
 export default function EndingPage() {
-  const total = 77;
-  const solved = 99;
+  const router = useRouter();
+  const { quizList, reset: resetQuiz } = useQuizStore();
+  const { solved, reset: resetScore } = useScoreStore();
+
+  const total = quizList.length;
+
+  function onClick() {
+    resetQuiz();
+    resetScore();
+    router.back();
+  }
 
   return (
     <div>
@@ -8,6 +21,7 @@ export default function EndingPage() {
       <h3>
         {total}개 중 {solved}개 맞추셨습니다
       </h3>
+      <button onClick={onClick}>다시 풀러 가기</button>
     </div>
   );
 }

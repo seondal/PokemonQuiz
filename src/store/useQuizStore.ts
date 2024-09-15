@@ -7,6 +7,8 @@ interface QuizStoreI {
 
   curNumber: number;
   goNextNumber: () => void;
+
+  reset: () => void;
 }
 
 const useQuizStore = create<QuizStoreI>((set) => ({
@@ -15,6 +17,8 @@ const useQuizStore = create<QuizStoreI>((set) => ({
 
   curNumber: 0,
   goNextNumber: () => set((state) => ({ curNumber: state.curNumber + 1 })),
+
+  reset: () => set({ quizList: [], curNumber: 0 }),
 }));
 
 export default useQuizStore;

@@ -4,6 +4,7 @@ import useQuizStore from "@/store/useQuizStore";
 import { useState } from "react";
 import EndingPage from "./Ending";
 import Result from "./Result";
+import useScoreStore from "@/store/useScoreStore";
 
 interface QuizI {
   children: React.ReactNode;
@@ -11,13 +12,18 @@ interface QuizI {
 
 export default function Quiz({ children }: QuizI) {
   const { quizList, curNumber, goNextNumber } = useQuizStore();
+  const { correct } = useScoreStore();
   const data = quizList[curNumber];
 
   const [value, setValue] = useState("");
   const [curState, setCurState] = useState<"ing" | "correct" | "wrong">("ing");
 
   function onSubmit() {
-    setCurState(data.name == value ? "correct" : "wrong");
+    const isCorrect = data.name === value;
+    if (isCorrect) {
+      correct();
+    }
+    setCurState(isCorrect ? "correct" : "wrong");
   }
 
   function onNext() {
