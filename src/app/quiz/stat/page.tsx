@@ -5,12 +5,17 @@ import useQuizStore from "@/store/useQuizStore";
 import Quiz from "../Quiz";
 import StatGraph from "./StatGraph";
 import Hint from "./Hint";
+import EndingPage from "../Ending";
 
 export default function QuizPage() {
   const { quizList } = useQuizStore();
   const [curNumber, setCurNumber] = useState(0);
 
   const data = quizList[curNumber];
+
+  if (quizList.length === curNumber) {
+    return <EndingPage />;
+  }
 
   return (
     <>
