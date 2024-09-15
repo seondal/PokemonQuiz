@@ -20,6 +20,7 @@ const GENERATION = Array.from(
 export default function QuizSetting() {
   const [mode, setMode] = useState<PathI>("stat");
   const [count, setCount] = useState(10);
+  const [generation, setGeneration] = useState<number[]>(GENERATION);
 
   const [loading, setLoading] = useState(false);
   const { setQuizList } = useQuizStore();
@@ -30,6 +31,7 @@ export default function QuizSetting() {
       method: "POST",
       body: JSON.stringify({
         count,
+        generation,
       }),
     });
     return res.json();
@@ -75,19 +77,29 @@ export default function QuizSetting() {
         <label htmlFor="count">개</label>
       </div>
       <br />
-      <p>출제 범위 (업데이트 예정)</p>
-      {/* {GENERATION.map((item) => (
-          <div key={item}>
-            <input
-              type="checkbox"
-              name="generation"
-              id="generation"
-              value={item}
-              defaultChecked
-            />
-            <label>{item}세대</label>
-          </div>
-        ))} */}
+      <p>출제 범위</p>
+      {GENERATION.map((item) => (
+        <div key={item}>
+          <input
+            type="checkbox"
+            name="generation"
+            id="generation"
+            value={item}
+            checked={generation.find((tmp) => tmp === item) !== undefined}
+            onChange={(e) => {
+              setGeneration((prev) => {
+                const value = parseInt(e.target.value);
+                if (e.target.checked) {
+                  return [...prev, value];
+                } else {
+                  return prev.filter((tmp) => tmp !== value);
+                }
+              });
+            }}
+          />
+          <label>{item}세대</label>
+        </div>
+      ))}
       {/* <div>
           <input type="checkbox" name="final" id="final" />
           <label htmlFor="final">최종 진화형만</label>

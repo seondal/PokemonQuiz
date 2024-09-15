@@ -1,23 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 import { myApi, pokeApi } from "../instance";
-
-const MAX = 1050 as const;
-const MIN = 1 as const;
+import { PokeAPI } from "pokeapi-types";
 
 export async function POST(request: NextRequest) {
   try {
-    const { count }: QuizRequestI = await request.json();
+    const { count, generation }: QuizRequestI = await request.json();
 
-    const indexList = Array.from(
-      { length: count },
-      () => Math.floor(Math.random() * (MAX - MIN + 1)) + MIN
+    let targetIndexes: number[] = [];
+    await Promise.all(
+      generation.map(async (gen) => {
+        const genRes = await pokeApi.get<PokeAPI.Generation>(
+          `/generation/${gen}`
+        );
+        const genData = genRes.data;
+        genData.pokemon_species.forEach((item) => {
+          const splitted = item.url.split("/");
+          const index = parseInt(splitted[splitted.length - 2]);
+          targetIndexes.push(index);
+        });
+      })
     );
+
+    const indexList = targetIndexes
+      .slice()
+      .sort(() => 0.5 - Math.random())
+      .slice(0, count);
 
     const quizList = await Promise.all(
       indexList.map(async (index) => {
         const res = await myApi.get(`/pokemon/${index}`);
-        const data = res.data;
-        return data;
+        return res.data;
       })
     );
 
