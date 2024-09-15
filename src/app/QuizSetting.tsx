@@ -1,7 +1,9 @@
 "use client";
 
 import { GenerationI, QuizListT } from "@/interface/response";
+import { PathI } from "@/interface/type";
 import useQuizStore from "@/store/useQuizStore";
+import useSettingStore from "@/store/useSettingStore";
 import fetcher from "@/utils/fetcher";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -9,7 +11,6 @@ import useSWR from "swr";
 
 const MAX_COUNT = 50;
 
-type PathI = "stat" | "artwork" | "sprite";
 const MODE: Array<{ name: string; path: PathI }> = [
   { name: "종족값 보고 맞추기", path: "stat" },
   { name: "공식이미지 보고 맞추기", path: "artwork" },
@@ -17,10 +18,17 @@ const MODE: Array<{ name: string; path: PathI }> = [
 
 export default function QuizSetting() {
   const { data: genList } = useSWR<GenerationI[]>("/api/generation", fetcher);
-  const [mode, setMode] = useState<PathI>("stat");
-  const [count, setCount] = useState(10);
-  const [generation, setGeneration] = useState<number[]>([]);
-  const [scopeSum, setScopeSum] = useState<number>(0);
+  const {
+    mode,
+    setMode,
+    count,
+    setCount,
+    generation,
+    addGen,
+    removeGen,
+    scopeSum,
+    clearGen,
+  } = useSettingStore();
 
   const [loading, setLoading] = useState(false);
   const { setQuizList } = useQuizStore();
@@ -95,17 +103,11 @@ export default function QuizSetting() {
               type="checkbox"
               onChange={(e) => {
                 if (e.target.checked) {
-                  let count = 0;
-                  let list: number[] = [];
                   genList.forEach((item) => {
-                    count += item.pokemonCount;
-                    list.push(item.id);
+                    addGen(item.id, item.pokemonCount);
                   });
-                  setGeneration(list);
-                  setScopeSum(count);
                 } else {
-                  setGeneration([]);
-                  setScopeSum(0);
+                  clearGen();
                 }
               }}
             />
@@ -122,13 +124,9 @@ export default function QuizSetting() {
                 }
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setGeneration((prev) => [...prev, item.id]);
-                    setScopeSum((prev) => prev + item.pokemonCount);
+                    addGen(item.id, item.pokemonCount);
                   } else {
-                    setGeneration((prev) =>
-                      prev.filter((tmp) => tmp !== item.id)
-                    );
-                    setScopeSum((prev) => prev - item.pokemonCount);
+                    removeGen(item.id, item.pokemonCount);
                   }
                 }}
               />
