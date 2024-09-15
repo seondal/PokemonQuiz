@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { myApi, pokeApi } from "../instance";
-import { PokeAPI } from "pokeapi-types";
+import { myApi } from "../instance";
+import { GenerationI } from "@/interface/response";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,14 +9,10 @@ export async function POST(request: NextRequest) {
     let targetIndexes: number[] = [];
     await Promise.all(
       generation.map(async (gen) => {
-        const genRes = await pokeApi.get<PokeAPI.Generation>(
-          `/generation/${gen}`
-        );
+        const genRes = await myApi.get<GenerationI>(`/generation/${gen}`);
         const genData = genRes.data;
-        genData.pokemon_species.forEach((item) => {
-          const splitted = item.url.split("/");
-          const index = parseInt(splitted[splitted.length - 2]);
-          targetIndexes.push(index);
+        genData.pokemonIndexes.forEach((item) => {
+          targetIndexes.push(item);
         });
       })
     );

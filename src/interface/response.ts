@@ -17,3 +17,10 @@ export interface PokemonI {
 }
 
 export type QuizListT = Array<PokemonI>;
+
+export interface GenerationI {
+  id: number;
+  name: string;
+  pokemonCount: number;
+  pokemonIndexes?: number[];
+}

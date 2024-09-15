@@ -1,9 +1,13 @@
 "use client";
 
-import { QuizListT } from "@/interface/response";
+import { GenerationI, QuizListT } from "@/interface/response";
 import useQuizStore from "@/store/useQuizStore";
+import fetcher from "@/utils/fetcher";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import useSWR from "swr";
+
+const MAX_COUNT = 50;
 
 type PathI = "stat" | "artwork" | "sprite";
 const MODE: Array<{ name: string; path: PathI }> = [
@@ -11,16 +15,12 @@ const MODE: Array<{ name: string; path: PathI }> = [
   { name: "공식이미지 보고 맞추기", path: "artwork" },
 ] as const;
 
-const LATEST_GENERATION = 9;
-const GENERATION = Array.from(
-  { length: LATEST_GENERATION },
-  (_, index) => index + 1
-);
-
 export default function QuizSetting() {
+  const { data: genList } = useSWR<GenerationI[]>("/api/generation", fetcher);
   const [mode, setMode] = useState<PathI>("stat");
   const [count, setCount] = useState(10);
-  const [generation, setGeneration] = useState<number[]>(GENERATION);
+  const [generation, setGeneration] = useState<number[]>([]);
+  const [scopeSum, setScopeSum] = useState<number>(0);
 
   const [loading, setLoading] = useState(false);
   const { setQuizList } = useQuizStore();
@@ -39,10 +39,14 @@ export default function QuizSetting() {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
-    const data = await fetchQuiz();
-    setQuizList(data);
-    router.push(`/quiz/${mode}`);
+    if (generation.length === 0) {
+      alert("한 개 이상의 세대를 선택해주세요!");
+    } else {
+      setLoading(true);
+      const data = await fetchQuiz();
+      setQuizList(data);
+      router.push(`/quiz/${mode}`);
+    }
   }
 
   if (loading) {
@@ -73,33 +77,68 @@ export default function QuizSetting() {
           required
           value={count}
           onChange={(e) => setCount(parseInt(e.target.value))}
+          max={MAX_COUNT}
         />
         <label htmlFor="count">개</label>
       </div>
       <br />
       <p>출제 범위</p>
-      {GENERATION.map((item) => (
-        <div key={item}>
-          <input
-            type="checkbox"
-            name="generation"
-            id="generation"
-            value={item}
-            checked={generation.find((tmp) => tmp === item) !== undefined}
-            onChange={(e) => {
-              setGeneration((prev) => {
-                const value = parseInt(e.target.value);
+      <div> {scopeSum} 마리</div>
+
+      {genList === undefined ? (
+        <p>로딩중</p>
+      ) : (
+        <>
+          <div>
+            <input
+              id="all"
+              type="checkbox"
+              onChange={(e) => {
                 if (e.target.checked) {
-                  return [...prev, value];
+                  let count = 0;
+                  let list: number[] = [];
+                  genList.forEach((item) => {
+                    count += item.pokemonCount;
+                    list.push(item.id);
+                  });
+                  setGeneration(list);
+                  setScopeSum(count);
                 } else {
-                  return prev.filter((tmp) => tmp !== value);
+                  setGeneration([]);
+                  setScopeSum(0);
                 }
-              });
-            }}
-          />
-          <label>{item}세대</label>
-        </div>
-      ))}
+              }}
+            />
+            <label htmlFor="all">전체선택</label>
+          </div>
+          {genList.map((item) => (
+            <div key={item.id}>
+              <input
+                type="checkbox"
+                id={item.name}
+                value={item.id}
+                checked={
+                  generation.find((tmp) => tmp === item.id) !== undefined
+                }
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setGeneration((prev) => [...prev, item.id]);
+                    setScopeSum((prev) => prev + item.pokemonCount);
+                  } else {
+                    setGeneration((prev) =>
+                      prev.filter((tmp) => tmp !== item.id)
+                    );
+                    setScopeSum((prev) => prev - item.pokemonCount);
+                  }
+                }}
+              />
+              <label htmlFor={item.name}>
+                {item.name} ({item.pokemonCount}마리)
+              </label>
+            </div>
+          ))}
+        </>
+      )}
       {/* <div>
           <input type="checkbox" name="final" id="final" />
           <label htmlFor="final">최종 진화형만</label>
