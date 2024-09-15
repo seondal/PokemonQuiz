@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
         id: item,
         name: genData.name,
         pokemonCount: genData.pokemonCount,
+        pokemonIndexes: genData.pokemonIndexes,
       };
     })
   );

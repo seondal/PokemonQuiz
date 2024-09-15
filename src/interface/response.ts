@@ -22,5 +22,5 @@ export interface GenerationI {
   id: number;
   name: string;
   pokemonCount: number;
-  pokemonIndexes?: number[];
+  pokemonIndexes: number[];
 }
