@@ -1,16 +1,18 @@
 "use client";
 
-import { PokemonI } from "@/interface/response";
+import useQuizStore from "@/store/useQuizStore";
 import Image from "next/image";
 import { useState } from "react";
+import EndingPage from "./Ending";
 
 interface QuizI {
-  data: PokemonI;
-  goNext: () => void;
   children: React.ReactNode;
 }
 
-export default function Quiz({ data, goNext, children }: QuizI) {
+export default function Quiz({ children }: QuizI) {
+  const { quizList, curNumber, goNextNumber } = useQuizStore();
+  const data = quizList[curNumber];
+
   const [value, setValue] = useState("");
   const [curState, setCurState] = useState<"ing" | "correct" | "wrong">("ing");
 
@@ -21,7 +23,11 @@ export default function Quiz({ data, goNext, children }: QuizI) {
   function onClickNext() {
     setCurState("ing");
     setValue("");
-    goNext();
+    goNextNumber();
+  }
+
+  if (quizList.length === curNumber) {
+    return <EndingPage />;
   }
 
   if (curState !== "ing") {
