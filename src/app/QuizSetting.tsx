@@ -5,6 +5,12 @@ import useQuizStore from "@/store/useQuizStore";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
+type PathI = "stat" | "artwork" | "sprite";
+const MODE: Array<{ name: string; path: PathI }> = [
+  { name: "종족값 보고 맞추기", path: "stat" },
+  { name: "공식이미지 보고 맞추기", path: "artwork" },
+] as const;
+
 const LATEST_GENERATION = 9;
 const GENERATION = Array.from(
   { length: LATEST_GENERATION },
@@ -12,6 +18,7 @@ const GENERATION = Array.from(
 );
 
 export default function QuizSetting() {
+  const [mode, setMode] = useState<PathI>("stat");
   const [count, setCount] = useState(10);
 
   const { setQuizList } = useQuizStore();
@@ -31,11 +38,25 @@ export default function QuizSetting() {
     e.preventDefault();
     const data = await fetchQuiz();
     setQuizList(data);
-    router.push("/quiz/stat");
+    router.push(`/quiz/${mode}`);
   }
 
   return (
     <form onSubmit={onSubmit}>
+      <ul>
+        {MODE.map((item) => (
+          <li key={item.path}>
+            <input
+              type="radio"
+              id={item.path}
+              name="mode"
+              checked={mode === item.path}
+              onChange={() => setMode(item.path)}
+            />
+            <label htmlFor={item.path}>{item.name}</label>
+          </li>
+        ))}
+      </ul>
       <p>문제 갯수</p>
       <div>
         <input
