@@ -1,19 +1,16 @@
 "use client";
 
 import { PokemonI } from "@/interface/response";
-import fetcher from "@/utils/fetcher";
 import Image from "next/image";
 import { useState } from "react";
-import useSWR from "swr";
-import StatGraph from "./StatGraph";
-import Hint from "./Hint";
 
 interface QuizI {
   data: PokemonI;
   goNext: () => void;
+  children: React.ReactNode;
 }
 
-export default function Quiz({ data, goNext }: QuizI) {
+export default function Quiz({ data, goNext, children }: QuizI) {
   const [value, setValue] = useState("");
   const [curState, setCurState] = useState<"ing" | "correct" | "wrong">("ing");
 
@@ -47,18 +44,7 @@ export default function Quiz({ data, goNext }: QuizI) {
 
   return (
     <div>
-      <StatGraph total={data.total} stats={data.stats} />
-      <div className="flex justify-around">
-        {data.types.map((item, idx) => (
-          <Hint
-            key={idx}
-            text={item.name}
-            color={item.color}
-            cover={`타입${idx + 1}`}
-          />
-        ))}
-        <Hint text={data.generation} cover="세대" />
-      </div>
+      {children}
       <form onSubmit={onSubmit}>
         <input value={value} onChange={(e) => setValue(e.target.value)} />
         <button>입력</button>

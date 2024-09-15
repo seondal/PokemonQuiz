@@ -31,7 +31,7 @@ export default function QuizSetting() {
     e.preventDefault();
     const data = await fetchQuiz();
     setQuizList(data);
-    router.push("/quiz");
+    router.push("/quiz/stat");
   }
 
   return (
