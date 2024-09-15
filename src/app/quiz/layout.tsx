@@ -44,6 +44,9 @@ export default function Quiz({ children }: QuizI) {
 
   return (
     <div>
+      <div>
+        {curNumber + 1} / {quizList.length}
+      </div>
       {children}
       <form onSubmit={onSubmit}>
         <input
