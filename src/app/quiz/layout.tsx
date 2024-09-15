@@ -46,7 +46,12 @@ export default function Quiz({ children }: QuizI) {
     <div>
       {children}
       <form onSubmit={onSubmit}>
-        <input value={value} onChange={(e) => setValue(e.target.value)} />
+        <input
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          autoFocus
+          required
+        />
         <button>입력</button>
       </form>
     </div>
