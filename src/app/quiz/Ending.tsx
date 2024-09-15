@@ -21,6 +21,7 @@ export default function EndingPage() {
       <h3>
         {total}개 중 {solved}개 맞추셨습니다
       </h3>
+      <h4>정답률 : {Math.floor((solved / total) * 100)}%</h4>
       <button onClick={onClick}>다시 풀러 가기</button>
     </div>
   );
