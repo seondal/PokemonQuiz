@@ -1,3 +1,5 @@
+"use client";
+
 import useQuizStore from "@/store/useQuizStore";
 import StatGraph from "./StatGraph";
 import Hint from "./Hint";

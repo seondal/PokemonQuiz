@@ -6,7 +6,6 @@ import Image from "next/image";
 export default function ArtworkQuizPage() {
   const { quizList, curNumber } = useQuizStore();
   const data = quizList[curNumber];
-  console.log("🚀 ~ ArtworkQuizPage ~ data:", data);
 
   return (
     <>

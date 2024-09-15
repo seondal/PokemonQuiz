@@ -1,9 +1,9 @@
 "use client";
 
 import useQuizStore from "@/store/useQuizStore";
-import Image from "next/image";
 import { useState } from "react";
 import EndingPage from "./Ending";
+import Result from "./Result";
 
 interface QuizI {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export default function Quiz({ children }: QuizI) {
     setCurState(data.name == value ? "correct" : "wrong");
   }
 
-  function onClickNext() {
+  function onNext() {
     setCurState("ing");
     setValue("");
     goNextNumber();
@@ -32,19 +32,7 @@ export default function Quiz({ children }: QuizI) {
 
   if (curState !== "ing") {
     return (
-      <div>
-        <Image
-          priority
-          src={data.image}
-          alt={data.name}
-          width={200}
-          height={200}
-        />
-        <div>정답 : {data.name}</div>
-        <div>답변 : {value}</div>
-        <div>{curState == "correct" ? "맞았습니다" : "틀렸습니다"}</div>
-        <button onClick={onClickNext}>다음</button>
-      </div>
+      <Result data={data} state={curState} response={value} goNext={onNext} />
     );
   }
 
