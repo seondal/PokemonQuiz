@@ -24,7 +24,10 @@ export default function Hint({ key, color = "navy", text, cover }: HintI) {
     );
   }
   return (
-    <button key={key} style={{ backgroundColor: color }}>
+    <button
+      key={key}
+      className="contrast"
+      style={{ backgroundColor: color, color: "white" }}>
       {text}
     </button>
   );
