@@ -9,7 +9,7 @@ interface HintI {
   cover?: string;
 }
 
-export default function Hint({ key, color = "navy", text, cover }: HintI) {
+export default function Hint({ key, color, text, cover }: HintI) {
   const [isOpen, setIsOpen] = useState(false);
 
   function onClick() {
@@ -18,8 +18,15 @@ export default function Hint({ key, color = "navy", text, cover }: HintI) {
 
   if (!isOpen) {
     return (
-      <button className="secondary" onClick={onClick}>
+      <button className="outline" onClick={onClick}>
         {cover}
+      </button>
+    );
+  }
+  if (!color) {
+    return (
+      <button key={key} className="secondary">
+        {text}
       </button>
     );
   }
