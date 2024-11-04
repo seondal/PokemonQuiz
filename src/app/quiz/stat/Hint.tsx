@@ -18,19 +18,14 @@ export default function Hint({ key, color = "navy", text, cover }: HintI) {
 
   if (!isOpen) {
     return (
-      <button
-        className="w-16 h-8 rounded-md flex justify-center items-center"
-        onClick={onClick}>
+      <button className="secondary" onClick={onClick}>
         {cover}
       </button>
     );
   }
   return (
-    <div
-      key={key}
-      className="text-white w-16 rounded-md h-8 flex justify-center items-center"
-      style={{ backgroundColor: color }}>
+    <button key={key} style={{ backgroundColor: color }}>
       {text}
-    </div>
+    </button>
   );
 }

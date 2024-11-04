@@ -48,14 +48,15 @@ export default function Quiz({ children }: QuizI) {
         {curNumber + 1} / {quizList.length}
       </div>
       {children}
-      <form onSubmit={onSubmit}>
+      <hr />
+      <form onSubmit={onSubmit} role="group">
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
           autoFocus
           required
         />
-        <button>입력</button>
+        <input type="submit" value="입력" />
       </form>
     </div>
   );

@@ -21,9 +21,9 @@ export default function StatGraph({ stats, total }: StatGraphI) {
         const widthPercent = `${Math.round((item.value / 255) * 100)}%`;
         return (
           <div key={item.name} className="flex justify-between">
-            <div className="w-20">{item.name}: </div>
-            <div className="w-10">{item.value}</div>
-            <div className="w-full flex flex-1">
+            <b className="w-20 text-center">{item.name}</b>
+            <kbd className="w-10 text-center">{item.value}</kbd>
+            <div className="w-full flex flex-1 items-center">
               <div
                 className="h-5"
                 style={{
@@ -36,8 +36,8 @@ export default function StatGraph({ stats, total }: StatGraphI) {
         );
       })}
       <div key={"총합"} className="flex justify-between">
-        <div className="w-20">총합: </div>
-        <div className="w-10">{total}</div>
+        <b className="w-20 text-center">총합</b>
+        <kbd className="w-10 text-center">{total}</kbd>
         <div className="w-full flex flex-1">
           <div
             className="h-5 bg-purple-600"

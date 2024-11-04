@@ -11,7 +11,8 @@ export default function StatQuizPage() {
   return (
     <>
       <StatGraph total={data.total} stats={data.stats} />
-      <div className="flex justify-around">
+      <hr />
+      <div className="grid">
         {data.types.map((item, idx) => (
           <Hint
             key={idx}

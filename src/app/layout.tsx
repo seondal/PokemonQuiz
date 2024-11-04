@@ -1,4 +1,6 @@
 import "./globals.css";
+import "@picocss/pico";
+
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { DEVELOPER, GOOGLE_ADSENSE, GOOGLE_ANALYITICS } from "@/constants/ENV";
@@ -21,9 +23,9 @@ export default function RootLayout({
       </head>
       <body>
         <header></header>
-        <main className="text-center m-auto">{children}</main>
+        <main>{children}</main>
         <GoogleAnalytics gaId={GOOGLE_ANALYITICS} />
-        <footer className="fixed b-0 inset-x-0 text-center p-4">
+        <footer>
           <div>문의, 기능제안, 오류신고 편하게 해주세요 !</div>
           <a href={DEVELOPER}>이 사이트 만든 사람</a>
         </footer>
