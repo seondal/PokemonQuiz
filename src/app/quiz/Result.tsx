@@ -34,9 +34,9 @@ export default function Result({ data, state, response, goNext }: ResultI) {
         width={200}
         height={200}
       />
-      <div>정답 : {data.name}</div>
-      <div>답변 : {response}</div>
-      <div>{state == "correct" ? "맞았습니다" : "틀렸습니다"}</div>
+      <h4>정답 : {data.name}</h4>
+      <h4>답변 : {response}</h4>
+      <h2>{state == "correct" ? "맞았습니다" : "틀렸습니다"}</h2>
       <button onClick={goNext}>다음</button>
     </div>
   );

@@ -22,7 +22,6 @@ export default function RootLayout({
           crossOrigin="anonymous"></Script>
       </head>
       <body>
-        <header></header>
         <main>{children}</main>
         <GoogleAnalytics gaId={GOOGLE_ANALYITICS} />
         <footer>
