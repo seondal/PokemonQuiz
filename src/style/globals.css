@@ -3,11 +3,5 @@
 @tailwind utilities;
 
 html {
-  padding: 2rem 12rem;
-}
-
-@media (max-width: 769px) {
-  html {
-    padding: 2rem;
-  }
+  padding: 2rem;
 }

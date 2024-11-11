@@ -3,12 +3,12 @@ import { GOOGLE_ADSENSE, GOOGLE_SEARCH, NAVER_SEARCH } from "./ENV";
 
 export const META_DATA: Metadata = {
   title: {
-    default: `Pokemon Stats Quiz`,
-    template: `TITLE | %s`,
+    default: `포켓몬 종족값 퀴즈`,
+    template: `포켓몬 퀴즈 | %s`,
   },
   description: "포켓몬 종족값 맞추기 퀴즈",
   openGraph: {
-    title: "Pokemon Stats Quiz",
+    title: "포켓몬 종족값 퀴즈",
     description: "포켓몬 종족값 맞추기 퀴즈",
     images: ["/meta/og.png"],
   },
