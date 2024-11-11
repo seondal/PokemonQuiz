@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
           `Error fetching generation ${item}:`,
           error.response?.data || error.message
         );
-        return { id: item, error: error.message };
+        return { id: item, error: error.response?.data };
       }
     })
   );
