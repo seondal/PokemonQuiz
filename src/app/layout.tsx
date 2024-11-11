@@ -6,6 +6,7 @@ import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { DEVELOPER, GOOGLE_ADSENSE, GOOGLE_ANALYITICS } from "@/constants/ENV";
 import { META_DATA } from "@/constants/META_DATA";
+import Link from "next/link";
 
 export const metadata = META_DATA;
 
@@ -23,12 +24,14 @@ export default function RootLayout({
           crossOrigin="anonymous"></Script>
       </head>
       <body>
-        <main>{children}</main>
+        <header>
+          <nav>
+            <h1>포켓몬 종족값 퀴즈</h1>
+            <a href={DEVELOPER}>이 사이트 만든 사람</a>
+          </nav>
+        </header>
+        <main className="container-fluid">{children}</main>
         <GoogleAnalytics gaId={GOOGLE_ANALYITICS} />
-        <footer>
-          <div>문의, 기능제안, 오류신고 편하게 해주세요 !</div>
-          <a href={DEVELOPER}>이 사이트 만든 사람</a>
-        </footer>
       </body>
     </html>
   );

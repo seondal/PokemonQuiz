@@ -43,10 +43,10 @@ export default function Quiz({ children }: QuizI) {
   }
 
   return (
-    <div>
-      <div>
+    <div className="container">
+      <h5 className="text-center">
         {curNumber + 1} / {quizList.length}
-      </div>
+      </h5>
       {children}
       <hr />
       <form onSubmit={onSubmit} role="group">
