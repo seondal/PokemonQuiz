@@ -12,14 +12,19 @@ export async function GET(request: NextRequest) {
 
   const results = await Promise.all(
     Array.from({ length: count }, (_, index) => index + 1).map(async (item) => {
-      const genRes = await myApi.get<GenerationI>(`/generation/${item}`);
-      const genData = genRes.data;
-      return {
-        id: item,
-        name: genData.name,
-        pokemonCount: genData.pokemonCount,
-        pokemonIndexes: genData.pokemonIndexes,
-      };
+      try {
+        const genRes = await myApi.get<GenerationI>(`/generation/${item}`);
+        const genData = genRes.data;
+        return {
+          id: item,
+          name: genData.name,
+          pokemonCount: genData.pokemonCount,
+          pokemonIndexes: genData.pokemonIndexes,
+        };
+      } catch (error: any) {
+        console.error(`Error fetching generation ${item}:`, error);
+        return { id: item, error: error.message };
+      }
     })
   );
 
