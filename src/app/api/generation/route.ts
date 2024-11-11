@@ -10,23 +10,17 @@ export async function GET(request: NextRequest) {
 
   const count = data.count;
 
-  const results = await Promise.all(
-    Array.from({ length: count }, (_, index) => index + 1).map(async (item) => {
-      try {
-        const genRes = await myApi.get<GenerationI>(`/generation/${item}`);
-        const genData = genRes.data;
-        return {
-          id: item,
-          name: genData.name,
-          pokemonCount: genData.pokemonCount,
-          pokemonIndexes: genData.pokemonIndexes,
-        };
-      } catch (error: any) {
-        console.error(`Error fetching generation ${item}:`, error);
-        return { id: item, error: error.message };
-      }
-    })
-  );
+  const results = [];
+  for (let item = 1; item <= count; item++) {
+    const genRes = await myApi.get<GenerationI>(`/generation/${item}`);
+    const genData = genRes.data;
+    results.push({
+      id: item,
+      name: genData.name,
+      pokemonCount: genData.pokemonCount,
+      pokemonIndexes: genData.pokemonIndexes,
+    });
+  }
 
   return NextResponse.json(results);
 }
