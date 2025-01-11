@@ -1,0 +1,29 @@
+{
+  "Header": {
+    "title": "Pokemon Stat Quiz",
+    "developer": "Buy Me Coffee"
+  },
+  "MainPage": {
+    "QuestionType": {
+      "label": "Question Type",
+      "statQuiz": "Guess based on base stats",
+      "imageQuiz": "Guess based on official images"
+    },
+    "QuestionCount": {
+      "label": "Number of Questions",
+      "value": "10",
+      "unit": "questions"
+    },
+    "QuestionRange": {
+      "label": "Selection Range",
+      "value": "0 Pokémon",
+      "selectAll": "Select All",
+      "alert": "Please select at least one generation!"
+    },
+    "HintOption": {
+      "label": "Hint Option",
+      "value": "Coming soon"
+    },
+    "StartQuiz": "Let's start Quiz"
+  }
+}

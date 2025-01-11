@@ -1,0 +1,29 @@
+{
+  "Header": {
+    "title": "포켓몬 종족값 퀴즈",
+    "developer": "이 페이지 만든 사람"
+  },
+  "MainPage": {
+    "QuestionType": {
+      "label": "문제 유형",
+      "statQuiz": "종족값 보고 맞추기",
+      "imageQuiz": "공식 이미지 보고 맞추기"
+    },
+    "QuestionCount": {
+      "label": "문제 갯수",
+      "value": "10",
+      "unit": "개"
+    },
+    "QuestionRange": {
+      "label": "출제 범위",
+      "value": "0마리",
+      "selectAll": "전체 선택",
+      "alert": "한 개 이상의 세대를 선택해주세요!"
+    },
+    "HintOption": {
+      "label": "힌트 여부",
+      "value": "업데이트 예정"
+    },
+    "StartQuiz": "문제 풀러 가기"
+  }
+}

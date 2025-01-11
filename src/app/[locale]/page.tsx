@@ -5,18 +5,21 @@ import { PathI } from "@/interface/type";
 import useQuizStore from "@/store/useQuizStore";
 import useSettingStore from "@/store/useSettingStore";
 import fetcher from "@/utils/fetcher";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import useSWR from "swr";
 
 const MAX_COUNT = 50;
 
-const MODE: Array<{ name: string; path: PathI }> = [
-  { name: "종족값 보고 맞추기", path: "stat" },
-  { name: "공식이미지 보고 맞추기", path: "artwork" },
-] as const;
-
 export default function Home() {
+  const t = useTranslations("MainPage");
+
+  const MODE: Array<{ name: string; path: PathI }> = [
+    { name: t("QuestionType.statQuiz"), path: "stat" },
+    { name: t("QuestionType.imageQuiz"), path: "artwork" },
+  ] as const;
+
   const { data: genList } = useSWR<GenerationI[]>("/api/generation", fetcher);
   const {
     mode,
@@ -48,7 +51,7 @@ export default function Home() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (generation.length === 0) {
-      alert("한 개 이상의 세대를 선택해주세요!");
+      alert(t("SelectionRange.alert"));
     } else {
       setLoading(true);
       const data = await fetchQuiz();
@@ -65,7 +68,7 @@ export default function Home() {
     <form onSubmit={onSubmit}>
       <nav className="grid">
         <section>
-          <h4>문제 유형</h4>
+          <h4>{t("QuestionType.label")}</h4>
           <article>
             {MODE.map((item) => (
               <div key={item.path}>
@@ -82,7 +85,7 @@ export default function Home() {
           </article>
         </section>
         <section>
-          <h4>문제 갯수</h4>
+          <h4>{t("QuestionCount.label")}</h4>
           <nav>
             <input
               type="number"
@@ -96,7 +99,7 @@ export default function Home() {
           </nav>
         </section>
         <section>
-          <h4>출제 범위</h4>
+          <h4>{t("QuestionRange.label")}</h4>
           {genList === undefined ? (
             <article aria-busy="true"></article>
           ) : (
@@ -116,7 +119,7 @@ export default function Home() {
                     }
                   }}
                 />
-                <label htmlFor="all">전체선택</label>
+                <label htmlFor="all">{t("QuestionRange.selectAll")}</label>
               </div>
               {genList.map((item) => (
                 <div key={item.id}>
@@ -144,8 +147,8 @@ export default function Home() {
           )}
         </section>
         <section>
-          <h4>힌트 여부 </h4>
-          <article>업데이트 예정</article>
+          <h4>{t("HintOption.label")} </h4>
+          <article>{t("HintOption.value")}</article>
         </section>
       </nav>
       {/* <div>
