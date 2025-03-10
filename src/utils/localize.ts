@@ -1,13 +1,12 @@
 import { PokeAPI } from "pokeapi-types";
 
-const LANGUAGE = "ko" as const;
-
 interface DataIncludingNamesI {
   names: PokeAPI.Name[];
 }
 
 export default function findLocalizedName<T extends DataIncludingNamesI>(
-  data: T
+  data: T,
+  locale: string
 ) {
-  return data.names.find((item) => item.language.name === LANGUAGE)?.name;
+  return data.names.find((item) => item.language.name === locale)?.name;
 }

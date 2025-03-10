@@ -5,7 +5,7 @@ import { PathI } from "@/interface/type";
 import useQuizStore from "@/store/useQuizStore";
 import useSettingStore from "@/store/useSettingStore";
 import fetcher from "@/utils/fetcher";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import useSWR from "swr";
@@ -13,6 +13,7 @@ import useSWR from "swr";
 const MAX_COUNT = 50;
 
 export default function Home() {
+  const locale = useLocale();
   const t = useTranslations("MainPage");
 
   const MODE: Array<{ name: string; path: PathI }> = [
@@ -56,7 +57,7 @@ export default function Home() {
       setLoading(true);
       const data = await fetchQuiz();
       setQuizList(data);
-      router.push(`/quiz/${mode}`);
+      router.push(`${locale}/quiz/${mode}`);
     }
   }
 

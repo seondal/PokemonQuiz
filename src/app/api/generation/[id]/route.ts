@@ -7,10 +7,13 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: number } }
 ) {
+  const locale = request.nextUrl.locale;
+  console.log("🚀 ~ locale:", locale);
+
   const res = await pokeApi.get<PokeAPI.Generation>(`/generation/${params.id}`);
   const data = res.data;
 
-  const name = findLocalizedName(data);
+  const name = findLocalizedName(data, locale);
 
   const pokemonIndexes = data.pokemon_species.map((item) => {
     const splitted = item.url.split("/");
