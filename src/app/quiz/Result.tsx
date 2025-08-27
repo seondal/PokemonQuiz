@@ -33,6 +33,7 @@ export default function Result({ data, state, response, goNext }: ResultI) {
         alt={data.name}
         width={200}
         height={200}
+        unoptimized
       />
       <h4>정답 : {data.name}</h4>
       <h4>답변 : {response}</h4>

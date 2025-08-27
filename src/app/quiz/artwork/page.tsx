@@ -9,7 +9,7 @@ export default function ArtworkQuizPage() {
 
   return (
     <>
-      <Image src={data.image} width={200} height={200} alt="" />
+      <Image src={data.image} width={200} height={200} alt="" unoptimized />
     </>
   );
 }
